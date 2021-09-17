@@ -2,12 +2,18 @@ import http from "http";
 import { Server } from "socket.io";
 import express from "express";
 import { instrument } from "@socket.io/admin-ui";
+import cookieParser from "cookie-parser";
 
 const app = express();
-// app.set("view engine", "pug");
-// app.set("views", __dirname + "/views");
-// app.use("/public", express.static(__dirname + "/public"));
-app.get("/", (req, res) => res.send("This is chat server"));
+app.set("view engine", "pug");
+app.set("views", __dirname + "/views");
+app.use("/public", express.static(__dirname + "/public"));
+
+app.use(
+  cookieParser(process.env.COOKIE_SECRET, { sameSite: "none", secure: true })
+);
+
+app.get("/", (req, res) => res.render("home"));
 app.get("/*", (req, res) => res.redirect("/"));
 
 const handleListen = () => {
@@ -17,6 +23,7 @@ const httpServer = http.createServer(app);
 const wsServer = new Server(httpServer, {
   cors: {
     origin: ["https://admin.socket.io"],
+    methods: ["GET", "POST"],
     credentials: true,
   },
 });

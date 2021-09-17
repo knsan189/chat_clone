@@ -43,6 +43,7 @@ const addMessage = (message) => {
 
 const handleSubmit = (event) => {
   event.preventDefault();
+  console.log(socket);
   const input = form.querySelector("input");
   socket.emit("enter_room", input.value, showRoom);
   roomName = input.value;

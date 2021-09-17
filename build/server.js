@@ -8,14 +8,20 @@ var _express = _interopRequireDefault(require("express"));
 
 var _adminUi = require("@socket.io/admin-ui");
 
+var _cookieParser = _interopRequireDefault(require("cookie-parser"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var app = (0, _express["default"])(); // app.set("view engine", "pug");
-// app.set("views", __dirname + "/views");
-// app.use("/public", express.static(__dirname + "/public"));
-
+var app = (0, _express["default"])();
+app.set("view engine", "pug");
+app.set("views", __dirname + "/views");
+app.use("/public", _express["default"]["static"](__dirname + "/public"));
+app.use((0, _cookieParser["default"])(process.env.COOKIE_SECRET, {
+  sameSite: "none",
+  secure: true
+}));
 app.get("/", function (req, res) {
-  return res.send("This is chat server");
+  return res.render("home");
 });
 app.get("/*", function (req, res) {
   return res.redirect("/");
@@ -30,6 +36,7 @@ var httpServer = _http["default"].createServer(app);
 var wsServer = new _socket.Server(httpServer, {
   cors: {
     origin: ["https://admin.socket.io"],
+    methods: ["GET", "POST"],
     credentials: true
   }
 });
