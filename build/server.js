@@ -10,19 +10,19 @@ var _adminUi = require("@socket.io/admin-ui");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var app = (0, _express["default"])();
-app.set("view engine", "pug");
-app.set("views", __dirname + "/views");
-app.use("/public", _express["default"]["static"](__dirname + "/public"));
+var app = (0, _express["default"])(); // app.set("view engine", "pug");
+// app.set("views", __dirname + "/views");
+// app.use("/public", express.static(__dirname + "/public"));
+
 app.get("/", function (req, res) {
-  return res.render("home");
+  return res.send("This is chat server");
 });
 app.get("/*", function (req, res) {
   return res.redirect("/");
 });
 
 var handleListen = function handleListen() {
-  console.log("http://localhost:4000 port Connected");
+  console.log("5000 port Connected");
 };
 
 var httpServer = _http["default"].createServer(app);
@@ -83,4 +83,4 @@ wsServer.on("connection", function (socket) {
     return socket["nickname"] = nickname;
   });
 });
-httpServer.listen(4000, handleListen);
+httpServer.listen(5000, handleListen);

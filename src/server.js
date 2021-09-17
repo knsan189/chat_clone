@@ -4,14 +4,14 @@ import express from "express";
 import { instrument } from "@socket.io/admin-ui";
 
 const app = express();
-app.set("view engine", "pug");
-app.set("views", __dirname + "/views");
-app.use("/public", express.static(__dirname + "/public"));
-app.get("/", (req, res) => res.render("home"));
+// app.set("view engine", "pug");
+// app.set("views", __dirname + "/views");
+// app.use("/public", express.static(__dirname + "/public"));
+app.get("/", (req, res) => res.send("This is chat server"));
 app.get("/*", (req, res) => res.redirect("/"));
 
 const handleListen = () => {
-  console.log("http://localhost:4000 port Connected");
+  console.log("5000 port Connected");
 };
 const httpServer = http.createServer(app);
 const wsServer = new Server(httpServer, {
@@ -72,4 +72,4 @@ wsServer.on("connection", (socket) => {
   socket.on("nickname", (nickname) => (socket["nickname"] = nickname));
 });
 
-httpServer.listen(4000, handleListen);
+httpServer.listen(5000, handleListen);
