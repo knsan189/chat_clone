@@ -83,4 +83,4 @@ wsServer.on("connection", function (socket) {
     return socket["nickname"] = nickname;
   });
 });
-httpServer.listen(5000, handleListen);
+httpServer.listen(process.env.PORT || 5000, handleListen);
