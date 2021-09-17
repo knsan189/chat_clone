@@ -11,7 +11,7 @@ app.get("/", (req, res) => res.render("home"));
 app.get("/*", (req, res) => res.redirect("/"));
 
 const handleListen = () => {
-  console.log("http://localhost:3000 port Connected");
+  console.log("http://localhost:4000 port Connected");
 };
 const httpServer = http.createServer(app);
 const wsServer = new Server(httpServer, {
@@ -72,4 +72,4 @@ wsServer.on("connection", (socket) => {
   socket.on("nickname", (nickname) => (socket["nickname"] = nickname));
 });
 
-httpServer.listen(3000, handleListen);
+httpServer.listen(4000, handleListen);
