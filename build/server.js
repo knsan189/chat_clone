@@ -10,16 +10,20 @@ var _adminUi = require("@socket.io/admin-ui");
 
 var _cookieParser = _interopRequireDefault(require("cookie-parser"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
 
 var app = (0, _express["default"])();
 app.set("view engine", "pug");
 app.set("views", __dirname + "/views");
 app.use("/public", _express["default"]["static"](__dirname + "/public"));
-app.use((0, _cookieParser["default"])(process.env.COOKIE_SECRET, {
-  sameSite: "none",
-  secure: true
-}));
+app.use(
+  (0, _cookieParser["default"])(process.env.COOKIE_SECRET, {
+    sameSite: "none",
+    secure: true,
+  })
+);
 app.get("/", function (req, res) {
   return res.render("home");
 });
@@ -35,19 +39,19 @@ var httpServer = _http["default"].createServer(app);
 
 var wsServer = new _socket.Server(httpServer, {
   cors: {
-    origin: ["https://admin.socket.io", "htpp://localhost:3000"],
+    origin: ["https://admin.socket.io", "http://localhost:3000"],
     methods: ["GET", "POST"],
-    credentials: true
-  }
+    credentials: true,
+  },
 });
 (0, _adminUi.instrument)(wsServer, {
-  auth: false
+  auth: false,
 });
 
 var getPublicRooms = function getPublicRooms() {
   var _wsServer$sockets$ada = wsServer.sockets.adapter,
-      sids = _wsServer$sockets$ada.sids,
-      rooms = _wsServer$sockets$ada.rooms;
+    sids = _wsServer$sockets$ada.sids,
+    rooms = _wsServer$sockets$ada.rooms;
   var publicRooms = [];
   rooms.forEach(function (_, key) {
     sids.get(key) === undefined && publicRooms.push(key);
@@ -58,7 +62,11 @@ var getPublicRooms = function getPublicRooms() {
 var countRoom = function countRoom(roomName) {
   var _wsServer$sockets$ada2;
 
-  return (_wsServer$sockets$ada2 = wsServer.sockets.adapter.rooms.get(roomName)) === null || _wsServer$sockets$ada2 === void 0 ? void 0 : _wsServer$sockets$ada2.size;
+  return (_wsServer$sockets$ada2 =
+    wsServer.sockets.adapter.rooms.get(roomName)) === null ||
+    _wsServer$sockets$ada2 === void 0
+    ? void 0
+    : _wsServer$sockets$ada2.size;
 };
 
 wsServer.on("connection", function (socket) {
@@ -83,11 +91,13 @@ wsServer.on("connection", function (socket) {
     wsServer.sockets.emit("room_change", getPublicRooms());
   });
   socket.on("new_message", function (msg, room, done) {
-    socket.to(room).emit("new_message", "".concat(socket.nickname, ": ").concat(msg));
+    socket
+      .to(room)
+      .emit("new_message", "".concat(socket.nickname, ": ").concat(msg));
     done();
   });
   socket.on("nickname", function (nickname) {
-    return socket["nickname"] = nickname;
+    return (socket["nickname"] = nickname);
   });
 });
 httpServer.listen(process.env.PORT || 5000, handleListen);
