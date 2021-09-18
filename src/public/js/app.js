@@ -1,4 +1,4 @@
-const socket = io();
+const socket = io("https://chatting-clone.herokuapp.com/");
 const welcome = document.getElementById("welcome");
 const room = document.getElementById("room");
 room.hidden = true;

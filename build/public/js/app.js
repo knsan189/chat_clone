@@ -1,6 +1,6 @@
 "use strict";
 
-var socket = io();
+var socket = io("https://chatting-clone.herokuapp.com/");
 var welcome = document.getElementById("welcome");
 var room = document.getElementById("room");
 room.hidden = true;

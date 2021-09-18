@@ -22,7 +22,7 @@ const handleListen = () => {
 const httpServer = http.createServer(app);
 const wsServer = new Server(httpServer, {
   cors: {
-    origin: ["https://admin.socket.io"],
+    origin: ["https://admin.socket.io", "htpp://localhost:3000"],
     methods: ["GET", "POST"],
     credentials: true,
   },

@@ -35,7 +35,7 @@ var httpServer = _http["default"].createServer(app);
 
 var wsServer = new _socket.Server(httpServer, {
   cors: {
-    origin: ["https://admin.socket.io"],
+    origin: ["https://admin.socket.io", "htpp://localhost:3000"],
     methods: ["GET", "POST"],
     credentials: true
   }
