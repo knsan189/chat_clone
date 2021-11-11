@@ -77,6 +77,13 @@ wsServer.on("connection", (socket) => {
   });
 
   socket.on("nickname", (nickname) => (socket["nickname"] = nickname));
+
+  socket.on("moveMapPosition", ({ center, zoom, room }) => {
+    console.log(center, zoom);
+    socket.broadcast.to(room).emit("moveMapPosition", { center, zoom });
+  });
+
+  console.log(socket);
 });
 
 httpServer.listen(process.env.PORT || 5000, handleListen);
