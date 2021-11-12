@@ -83,7 +83,10 @@ wsServer.on("connection", (socket) => {
     socket.broadcast.to(room).emit("moveMapPosition", { center, zoom });
   });
 
-  console.log(socket);
+  socket.on("changePlans", ({ plans, room }) => {
+    console.log(plans);
+    socket.broadcast.to(room).emit("changePlans", plans);
+  });
 });
 
 httpServer.listen(process.env.PORT || 5000, handleListen);
